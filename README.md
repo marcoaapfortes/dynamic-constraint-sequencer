@@ -1,120 +1,251 @@
-
 # Dynamic Constraint Sequencer
 
 ## Overview
 
-The `DynamicConstraintSequencer` is an energy-efficient algorithm for optimizing query processing over large structured datasets, designed to reduce computational and energy costs in data-intensive AI applications. Inspired by the human brain’s remarkable 20-watt efficiency, the algorithm employs advanced techniques such as sparsity exploitation, reinforcement learning, and energy-aware constraint sequencing to minimize resource usage while maintaining high performance. It is particularly suited for AI data preprocessing, search, and inference tasks, aligning with Green AI initiatives from organizations like xAI and OpenAI, which emphasize sustainable AI through reduced carbon footprints and energy-efficient computation.
+The `DynamicConstraintSequencer` is an energy-efficient algorithm for optimizing query processing over large structured datasets, designed to reduce computational and energy costs in data-intensive AI applications. Inspired by the human brain's remarkable 20-watt efficiency, the algorithm employs advanced techniques such as sparsity exploitation, reinforcement learning, and energy-aware constraint sequencing to minimize resource usage while maintaining high performance.
 
 ## Features
 
-- **Energy Monitoring**: Tracks CPU, memory, and estimated power consumption (joules) using `psutil`, enabling optimization for energy efficiency.
-- **Sparsity Exploitation**: Optimizes processing for sparse datasets (e.g., >30% nulls/zeros), reducing memory and computational overhead.
-- **Reinforcement Learning**: Dynamically learns optimal constraint orderings using a Q-learning approach, minimizing operations and energy for recurring queries.
-- **Edge AI Compatibility**: Supports resource-constrained devices with memory limits and reduced parallelization, suitable for IoT and mobile applications.
-- **AI-Specific Query Parsing**: Handles queries for AI workloads (e.g., filtering training data by variance or correlation), enhancing applicability to machine learning pipelines.
-- **Parallel Processing**: Leverages multi-core CPUs for large datasets, improving scalability and reducing execution time.
+- **Energy Monitoring**: Tracks CPU, memory, and estimated power consumption (joules) using `psutil`, enabling optimization for energy efficiency
+- **Sparsity Exploitation**: Optimizes processing for sparse datasets (e.g., >30% nulls/zeros), reducing memory and computational overhead
+- **Reinforcement Learning**: Dynamically learns optimal constraint orderings using a Q-learning approach, minimizing operations and energy for recurring queries
+- **Edge AI Compatibility**: Supports resource-constrained devices with memory limits and reduced parallelization
+- **AI-Specific Query Parsing**: Handles queries for AI workloads (e.g., filtering training data by variance or correlation)
+- **Parallel Processing**: Leverages multi-core CPUs for large datasets, improving scalability and reducing execution time
+- **Natural Language Query Processing**: Supports intuitive query syntax like "Find cheapest red phones under $300"
 
 ## Energy Efficiency and Green AI
 
-The algorithm is designed to address the energy inefficiency of modern AI systems, which often consume significant power during training and inference. For example, training a single large language model can emit as much CO2 as several transatlantic flights (Strubell et al., 2019). In contrast, the human brain performs complex tasks at ~20 watts, serving as inspiration for this work. The `DynamicConstraintSequencer` achieves:
+The algorithm addresses the energy inefficiency of modern AI systems by achieving:
 
-- **Up to 60% reduction in computational operations**, minimizing CPU cycles and energy consumption.
-- **Energy usage of 20-50 joules per query**, with an average power draw of ~20-30 watts, as measured on standard hardware.
-- **Estimated CO2 footprint of ~0.01-0.1 grams per query**, based on a 500g CO2/kWh grid average.
-
-These metrics align with Green AI initiatives, such as xAI’s focus on efficient computation for scientific discovery and OpenAI’s sustainability efforts to reduce the environmental impact of AI (OpenAI, 2023 Sustainability Report).
-
-## Benchmark Results
-
-The algorithm was benchmarked on a dataset of 50,000 records with ~30% sparsity, using six representative queries, including AI-specific tasks (e.g., “Find training data with high ratings above 4”). Key results compared to a traditional sequential approach:
-
-- **Operations**: Reduced by 50-60% (e.g., 200,000 to 80,000-100,000 operations per query).
-- **Computational Cost**: Decreased by 40-50% (e.g., 50 to 20-25 cost units).
-- **Execution Time**: Improved by 2-3x (e.g., 45ms to 15-20ms per query).
-- **Energy Consumption**: 20-50 joules per query, with sparsity and learning optimizations contributing significantly.
-- **Cache Hits**: Achieved in 16.7-33.3% of queries, leveraging learned orderings for recurring patterns.
-- **Sparsity Exploitation**: Utilized in 50% of queries, reducing memory and computation.
-
-The following chart visualizes the performance and energy improvements:
-
-![Benchmark Chart](benchmark_chart.png)
-*Figure 1: Comparison of traditional vs. enhanced Dynamic Constraint Sequencer across operations, cost, and energy for six test queries.*
-
-## Applications to AI Pipelines
-
-The `DynamicConstraintSequencer` is designed for integration into AI pipelines, particularly in the following areas:
-
-1. **Data Preprocessing**: Efficiently filters large datasets for training or validation (e.g., selecting samples with high variance or low correlation), reducing energy costs in data preparation.
-2. **Inference Optimization**: Accelerates real-time query processing in recommendation systems or search engines, critical for production AI systems.
-3. **Edge AI**: Optimizes resource usage on low-power devices, enabling efficient AI deployment on IoT or mobile platforms.
-4. **Green AI Research**: Provides a framework for energy-aware query optimization, contributing to sustainable AI development.
-
-The algorithm’s support for AI-specific queries (e.g., “Get validation data with low correlation”) makes it directly applicable to machine learning workflows, where data preprocessing can account for significant energy consumption.
+- **Up to 60% reduction in computational operations**, minimizing CPU cycles and energy consumption
+- **Energy usage of 20-50 joules per query**, with an average power draw of ~20-30 watts
+- **Estimated CO2 footprint of ~0.01-0.1 grams per query**, based on a 500g CO2/kWh grid average
 
 ## Installation
 
 ### Prerequisites
 - Python 3.8+
-- Required packages: `pandas`, `numpy`, `psutil`, `scipy`
-- Optional (for NLP parsing): `spacy` (install with `pip install spacy && python -m spacy download en_core_web_sm`)
+- Required packages listed in `requirements.txt`
 
 ### Setup
 ```bash
+# Clone the repository
+git clone https://github.com/yourusername/dynamic-constraint-sequencer.git
+cd dynamic-constraint-sequencer
+
+# Install dependencies
 pip install -r requirements.txt
+
+# Optional: Install spaCy for enhanced NLP features
 python -m spacy download en_core_web_sm
 ```
 
-### Usage
+### Dependencies
+The project requires the following packages:
+- `pandas>=1.5.0` - Data manipulation and analysis
+- `numpy>=1.21.0` - Numerical computing
+- `scipy>=1.9.0` - Scientific computing and statistics
+- `spacy>=3.4.0` - Natural language processing (optional)
+- `psutil>=5.8.0` - System and process monitoring
+
+## Usage
+
+### Basic Usage
 ```python
-from dynamic_constraint_sequencer import DynamicConstraintSequencer, generate_test_data_with_sparsity
+from dcs import DynamicConstraintSequencer, generate_test_data_with_sparsity
 
 # Generate test data
 data = generate_test_data_with_sparsity(n_products=50000, sparsity_factor=0.3)
 
-# Initialize sequencer
+# Initialize sequencer with energy monitoring
 dcs = DynamicConstraintSequencer(
     enable_energy_monitoring=True,
     enable_sparsity_optimization=True,
-    enable_reinforcement_learning=True
+    enable_reinforcement_learning=True,
+    target_energy_budget_joules=50.0
 )
 
-# Execute query
-result = dcs.search(data, "Find training data with high ratings above 4")
+# Execute natural language query
+result = dcs.search(data, "Find cheapest red phones not made by Apple under 300 with rating above 4")
 
 # Print results
 print(f"Results found: {len(result.final_data)}")
 print(f"Energy consumed: {result.total_energy_joules:.2f} Joules")
 print(f"Operations: {result.total_operations:,}")
+print(f"Execution time: {result.execution_time*1000:.1f}ms")
+print(f"Cache hit: {result.cache_hit}")
+print(f"Sparsity exploited: {result.sparsity_exploited}")
 ```
+
+### Advanced Configuration
+```python
+# Edge AI mode for resource-constrained devices
+dcs.enable_edge_mode(memory_limit_mb=512)
+
+# Custom energy budget
+dcs = DynamicConstraintSequencer(
+    target_energy_budget_joules=25.0,
+    parallel_threshold=10000,
+    max_workers=2
+)
+```
+
+### AI-Specific Queries
+```python
+# Filter training data
+result = dcs.search(data, "Find training data with high variance above 4")
+
+# Get validation samples
+result = dcs.search(data, "Show validation data with low correlation")
+```
+
+### Running the Benchmark
+```python
+# Run the built-in benchmark
+python dcs.py
+```
+
+This will execute a comprehensive benchmark with 6 test queries and display:
+- Performance comparisons (traditional vs. enhanced)
+- Energy consumption statistics
+- Cache hit rates and sparsity optimization usage
+- Learned constraint orderings
+
+## Query Syntax
+
+The system supports natural language queries with the following patterns:
+
+### Product Filtering
+- Colors: "red phones", "not blue laptops", "exclude black items"
+- Brands: "Apple products", "not Samsung", "not made by Google"
+- Categories: "phones", "laptops", "tablets", "watches"
+- Price ranges: "under $500", "between $200 and $800", "over $1000"
+- Ratings: "rating above 4", "4+ stars", "minimum 3.5 stars"
+
+### AI-Specific Queries
+- Training data: "training samples", "learning data"
+- Validation: "validation set", "dev data"
+- Inference: "test data", "prediction samples"
+- Data characteristics: "high variance", "low correlation", "anomaly detection"
+
+### Optimization Keywords
+- "cheapest", "most affordable" → sort by price ascending
+- "most expensive", "premium" → sort by price descending  
+- "best rated", "highest rated" → sort by rating descending
+- "most popular" → sort by popularity descending
+
+## Architecture
+
+### Core Components
+
+1. **EnergyMonitor**: Tracks CPU, memory, and power consumption
+2. **ReinforcementOptimizer**: Q-learning for constraint ordering
+3. **DynamicConstraintSequencer**: Main algorithm with sparsity optimization
+4. **Query Parser**: Natural language to constraint conversion
+
+### Data Structures
+
+- `EnergyMetrics`: Energy consumption data
+- `StepResult`: Per-constraint filtering results
+- `BenchmarkResult`: Complete query execution results
+- `LearnedOrdering`: Cached optimal constraint sequences
+
+## Performance Characteristics
+
+Based on benchmarks with 50,000 records and 30% sparsity:
+
+| Metric | Traditional | Enhanced | Improvement |
+|--------|-------------|----------|-------------|
+| Operations | 200,000 | 80,000-100,000 | 50-60% reduction |
+| Cost | 50 units | 20-25 units | 40-50% reduction |
+| Time | 45ms | 15-20ms | 2-3x faster |
+| Energy | N/A | 20-50 joules | New capability |
 
 ## Repository Structure
 
-- `dynamic_constraint_sequencer.py`: Core algorithm implementation.
-- `benchmark_chart.json`: Chart.js configuration for visualizing benchmark results.
-- `requirements.txt`: Dependencies for the project.
-- `README.md`: This file.
+```
+dynamic-constraint-sequencer/
+├── dcs.py                 # Core implementation
+├── requirements.txt       # Python dependencies
+├── README.md             # This file
+└── LICENSE               # MIT License
+```
 
-## Future Work
+## Applications
 
-- **Hardware Integration**: Adapt for neuromorphic hardware (e.g., Intel Loihi) to further reduce energy consumption.
-- **Distributed Systems**: Integrate with Apache Spark or Dask for large-scale, distributed query processing.
-- **Advanced RL**: Implement neural network-based reinforcement learning (e.g., DQN) for complex query patterns.
-- **Real-World Validation**: Test on industry datasets (e.g., e-commerce catalogs, AI training data) to quantify impact in production environments.
+### AI/ML Pipelines
+- **Data Preprocessing**: Efficiently filter training/validation datasets
+- **Feature Selection**: Query data by statistical properties (variance, correlation)
+- **Inference Optimization**: Fast query processing for recommendation systems
+- **Edge AI**: Resource-efficient processing on IoT/mobile devices
+
+### Use Cases
+- E-commerce product search and filtering
+- Scientific data analysis and filtering
+- Real-time recommendation systems
+- IoT sensor data processing
+- Mobile app data queries
+
+## Energy Statistics
+
+The system provides detailed energy consumption metrics:
+
+```python
+# Get energy statistics after running queries
+stats = dcs.get_energy_statistics()
+print(f"Total energy: {stats['total_energy_joules']:.2f} J")
+print(f"Average power: {stats['avg_watts']:.1f} W")
+print(f"CO2 footprint: {stats['total_energy_joules']/3600000*500:.3f} g")
+```
 
 ## Contributing
 
-Contributions are welcome! Please submit pull requests or issues to the GitHub repository. For major changes, open an issue to discuss proposed enhancements.
+Contributions are welcome! Please:
+
+1. Fork the repository
+2. Create a feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit your changes (`git commit -m 'Add amazing feature'`)
+4. Push to the branch (`git push origin feature/amazing-feature`)
+5. Open a Pull Request
+
+### Development Setup
+```bash
+# Install development dependencies
+pip install -r requirements.txt
+
+# Run tests
+python -m pytest tests/
+
+# Run linting
+python -m flake8 dcs.py
+```
+
+## Future Work
+
+- **Hardware Integration**: Adapt for neuromorphic hardware (e.g., Intel Loihi)
+- **Distributed Systems**: Integration with Apache Spark or Dask
+- **Advanced RL**: Neural network-based reinforcement learning (DQN)
+- **Real-World Validation**: Testing on industry datasets
+- **Query Optimization**: More sophisticated constraint reordering algorithms
 
 ## License
 
 This project is licensed under the MIT License. See the `LICENSE` file for details.
 
-## Contact
-
-For inquiries, contact the author via GitHub or reach out to research teams at xAI (https://x.ai/api) or other AI organizations for collaboration opportunities.
-
 ## References
 
-- Strubell, E., et al. (2019). "Energy and Policy Considerations for Deep Learning in NLP." *ACL 2019*.
-- OpenAI. (2023). *Sustainability Report*. [Available online].
-- xAI. (2023). Mission to advance scientific discovery through efficient AI computation.
+- Strubell, E., et al. (2019). "Energy and Policy Considerations for Deep Learning in NLP." *ACL 2019*
+- Green AI initiatives and sustainable computing research
+- Human brain efficiency studies (~20W power consumption)
+
+## Contact
+
+For questions, issues, or collaboration opportunities, please:
+- Open an issue on GitHub
+- Submit a pull request
+- Contact the maintainers through GitHub
+
+---
+
+*Built with ❤️ for sustainable AI and energy-efficient computing*
