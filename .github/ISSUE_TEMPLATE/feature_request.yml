@@ -1,0 +1,66 @@
+name: Feature Request
+description: Suggest an idea for this project
+title: "[Feature]: "
+labels: [enhancement]
+body:
+  - type: textarea
+    id: feature-description
+    attributes:
+      label: Describe the feature
+      description: What do you want to see added?
+      placeholder: A clear and concise description of the feature you'd like to see implemented.
+    validations:
+      required: true
+  - type: textarea
+    id: motivation
+    attributes:
+      label: Motivation
+      description: Why is this feature important to you?
+      placeholder: |
+        Describe the problem this feature would solve or the use case it would enable.
+        For example: "I'm always frustrated when..."
+    validations:
+      required: true
+  - type: textarea
+    id: proposed-solution
+    attributes:
+      label: Proposed solution
+      description: How would you like this feature to work?
+      placeholder: Describe how you envision this feature working in detail.
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives considered
+      description: Have you considered any alternative solutions or features?
+      placeholder: Describe any alternative solutions or features you've considered.
+  - type: dropdown
+    id: feature-type
+    attributes:
+      label: Feature type
+      description: What type of feature is this?
+      options:
+        - Performance improvement
+        - New algorithm/optimization
+        - API enhancement
+        - Documentation improvement
+        - Developer experience
+        - Energy efficiency
+        - Edge AI support
+        - Other
+    validations:
+      required: true
+  - type: checkboxes
+    id: implementation
+    attributes:
+      label: Implementation
+      description: Are you willing to help implement this feature?
+      options:
+        - label: I'm willing to submit a PR for this feature
+        - label: I can help with testing
+        - label: I can help with documentation
+  - type: textarea
+    id: additional-context
+    attributes:
+      label: Additional context
+      description: Add any other context, screenshots, or examples about the feature request here.
+      placeholder: Any additional information that might be helpful. 

@@ -1,3 +1,9 @@
+![License](https://img.shields.io/github/license/marcoaapfortes/dynamic-constraint-sequencer)
+![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)
+![Python](https://img.shields.io/badge/python-3.8+-blue.svg)
+![Energy Efficient](https://img.shields.io/badge/energy-efficient-green.svg)
+![AI Ready](https://img.shields.io/badge/AI-ready-orange.svg)
+
 # Dynamic Constraint Sequencer
 
 ## Overview
@@ -199,27 +205,63 @@ print(f"Average power: {stats['avg_watts']:.1f} W")
 print(f"CO2 footprint: {stats['total_energy_joules']/3600000*500:.3f} g")
 ```
 
-## Contributing
+## 🤝 Contributing
 
-Contributions are welcome! Please:
+We welcome contributions of all kinds! 🎉 Whether you're fixing bugs, adding features, improving documentation, or optimizing performance, your help makes this project better.
 
-1. Fork the repository
-2. Create a feature branch (`git checkout -b feature/amazing-feature`)
-3. Commit your changes (`git commit -m 'Add amazing feature'`)
-4. Push to the branch (`git push origin feature/amazing-feature`)
-5. Open a Pull Request
+### 🚀 Quick Start for Contributors
 
-### Development Setup
+1. **Check out our [CONTRIBUTING.md](CONTRIBUTING.md)** for detailed guidelines
+2. **Look for issues labeled** `good first issue` or `help wanted`
+3. **Join the discussion** in our GitHub Discussions
+4. **Read our [Code of Conduct](CODE_OF_CONDUCT.md)**
+
+### 🎯 Ways to Contribute
+
+- 🐛 **Bug Fixes**: Help us squash bugs and improve reliability
+- ✨ **New Features**: Add energy optimizations, AI enhancements, or query improvements
+- 📚 **Documentation**: Improve guides, add examples, or fix typos
+- ⚡ **Performance**: Optimize algorithms for speed and energy efficiency
+- 🧪 **Testing**: Add tests, benchmarks, or edge case coverage
+- 🌱 **Ideas**: Share suggestions in GitHub Discussions
+
+### 🏃‍♂️ Quick Development Setup
 ```bash
-# Install development dependencies
+# Fork and clone the repo
+git clone https://github.com/<your-username>/dynamic-constraint-sequencer.git
+cd dynamic-constraint-sequencer
+
+# Set up environment
+python -m venv venv
+source venv/bin/activate  # Windows: venv\Scripts\activate
+
+# Install dependencies
 pip install -r requirements.txt
+python -m spacy download en_core_web_sm
 
-# Run tests
-python -m pytest tests/
+# Verify setup
+python dcs.py  # Run benchmark
 
-# Run linting
-python -m flake8 dcs.py
+# Create your feature branch
+git checkout -b feature/amazing-feature
 ```
+
+### 🏷️ Good First Issues
+
+Perfect for newcomers:
+- Documentation improvements
+- Adding query examples
+- Performance benchmarking
+- Code formatting and cleanup
+- Adding type hints
+
+### 🌟 Recognition
+
+Contributors are recognized in:
+- 📝 Project README
+- 🎉 Release notes
+- 💬 Community discussions
+- 🏆 GitHub contributor graphs
 
 ## Future Work
 
